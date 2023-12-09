@@ -1,0 +1,120 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+}
+
+version = "$project.mod_version"
+def config_library_version = "$project.config_library_version"
+def arc_version = "$project.arc_version"
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    // Remove the next line if you don't want to depend on the API
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+    modImplementation "curse.maven:supermartijn642s-config-lib-438332:${project.config_library_file_forge}"
+    modImplementation "curse.maven:arc-883593:${project.arc_file_forge}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "config_library_version", config_library_version
+    inputs.property "arc_version", arc_version
+
+    filesMatching("META-INF/mods.toml") {
+        expand([
+                "version": project.version,
+                "config_library_version": config_library_version,
+                "arc_version": arc_version
+        ])
+    }
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier.set("forge-dev-shadow")
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier.set("forge")
+}
+
+jar {
+    archiveClassifier.set("dev")
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+remapSourcesJar {
+    archiveClassifier.set("forge-sources")
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifactId = rootProject.archives_base_name + "-" + project.name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
+}
+
+curseforge {
+    apiKey = System.getenv("CURSEFORGE_API_KEY")
+    project {
+        id = rootProject.curse_forge_project_id
+        releaseType = rootProject.curse_forge_release_type
+        addGameVersion "$rootProject.minecraft_version"
+        addGameVersion "Java 17"
+        addGameVersion "Forge"
+
+        relations {
+            requiredDependency("architectury-api")
+            requiredDependency("supermartijn642s-config-lib")
+            requiredDependency("arc")
+        }
+
+        mainArtifact(remapSourcesJar) {
+            displayName = "Challenges Forge $rootProject.minecraft_version - $rootProject.mod_version"
+        }
+
+        addArtifact(sourcesJar) {
+        }
+    }
+}
+

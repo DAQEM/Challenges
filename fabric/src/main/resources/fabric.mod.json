@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "challenges",
+  "version": "${version}",
+
+  "name": "Challenges",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "Apache 2.0",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {},
+  "mixins": [
+    "challenges.mixins.json",
+    "challenges-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.1",
+    "minecraft": ">=1.20.1",
+    "architectury": ">=9.1.12",
+    "supermartijn642configlib": ">=${config_library_version}",
+    "arc": ">=${arc_version}"
+  }
+}
