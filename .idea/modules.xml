@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/Challenges.common.iml" filepath="$PROJECT_DIR$/.idea/modules/common/Challenges.common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/Challenges.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/Challenges.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/Challenges.common.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/Challenges.common.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fabric/Challenges.fabric.main.iml" filepath="$PROJECT_DIR$/.idea/modules/fabric/Challenges.fabric.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fabric/Challenges.fabric.test.iml" filepath="$PROJECT_DIR$/.idea/modules/fabric/Challenges.fabric.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/forge/Challenges.forge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/forge/Challenges.forge.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/forge/Challenges.forge.test.iml" filepath="$PROJECT_DIR$/.idea/modules/forge/Challenges.forge.test.iml" />
+    </modules>
+  </component>
+</project>
