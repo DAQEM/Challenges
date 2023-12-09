@@ -64,3 +64,24 @@ description='''
    versionRange="[1.20.1,1.21)"
    ordering="NONE"
    side="BOTH"
+
+[[dependencies.challenges]]
+   modId = "architectury"
+   mandatory = true
+   versionRange = "[9.1.12,)"
+   ordering = "AFTER"
+   side = "BOTH"
+
+[[dependencies.challenges]]
+   modId = "supermartijn642configlib"
+   mandatory = true
+   versionRange = "[${config_library_version},)"
+   ordering = "NONE"
+   side = "BOTH"
+
+[[dependencies.challenges]]
+   modId = "arc"
+   mandatory = true
+   versionRange = "[${arc_version},)"
+   ordering = "NONE"
+   side = "BOTH"

@@ -4,6 +4,12 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
+
+    compileOnlyApi "curse.maven:supermartijn642s-config-lib-438332:${project.config_library_file_fabric}"
+    modImplementation "curse.maven:arc-883593:${project.arc_file_fabric}-sources-${project.arc_file_fabric_sources}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${rootProject.j_unit_version}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${rootProject.j_unit_version}"
 }
 
 architectury {
@@ -22,4 +28,8 @@ publishing {
     repositories {
         // Add repositories to publish to here.
     }
+}
+
+test {
+    useJUnitPlatform()
 }

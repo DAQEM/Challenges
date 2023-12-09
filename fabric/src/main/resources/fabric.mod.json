@@ -19,6 +19,9 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.1",
-    "minecraft": ">=1.20.1"
+    "minecraft": ">=1.20.1",
+    "architectury": ">=9.1.12",
+    "supermartijn642configlib": ">=${config_library_version}",
+    "arc": ">=${arc_version}"
   }
 }
