@@ -6,6 +6,7 @@ plugins {
 version = "$project.mod_version"
 def config_library_version = "$project.config_library_version"
 def arc_version = "$project.arc_version"
+def ui_lib_version = "$project.ui_lib_version"
 
 architectury {
     platformSetupLoomIde()
@@ -31,18 +32,21 @@ dependencies {
 
     modImplementation "curse.maven:supermartijn642s-config-lib-438332:${project.config_library_file_fabric}"
     modImplementation "curse.maven:arc-883593:${project.arc_file_fabric}"
+    modImplementation "curse.maven:ui-933200:${project.ui_lib_file_fabric}"
 }
 
 processResources {
     inputs.property "version", project.version
     inputs.property "config_library_version", config_library_version
     inputs.property "arc_version", arc_version
+    inputs.property "ui_lib_version", ui_lib_version
 
     filesMatching("fabric.mod.json") {
         expand([
                 "version": project.version,
                 "config_library_version": config_library_version,
-                "arc_version": arc_version
+                "arc_version": arc_version,
+                "ui_lib_version": ui_lib_version
         ])
     }
 }
@@ -108,6 +112,7 @@ curseforge {
             requiredDependency("architectury-api")
             requiredDependency("supermartijn642s-config-lib")
             requiredDependency("arc")
+            requiredDependency("ui")
         }
 
         mainArtifact(remapJar) {

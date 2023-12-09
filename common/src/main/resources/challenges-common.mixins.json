@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.daqem.challenges.mixin.forge",
+  "package": "com.daqem.challenges.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ServerPlayerMixin"
   ],
   "client": [
   ],
