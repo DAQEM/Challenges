@@ -85,3 +85,10 @@ description='''
    versionRange = "[${arc_version},)"
    ordering = "NONE"
    side = "BOTH"
+
+[[dependencies.challenges]]
+   modId = "uilib"
+   mandatory = true
+   versionRange = "[${ui_lib_version},)"
+   ordering = "NONE"
+   side = "CLIENT"

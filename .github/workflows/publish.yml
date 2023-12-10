@@ -44,7 +44,7 @@ jobs:
           repo: 'actions/checkout'
 
       - name: Fail if tag exists
-        if: steps.checkTag.outputs.exists != 'true'
+        if: steps.checkTag.outputs.exists == 'true'
         run: exit 1
 
       - name: Publish to CurseForge
