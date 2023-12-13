@@ -1,7 +1,7 @@
 package com.daqem.challenges;
 
 import com.daqem.challenges.event.RegisterCommandsEvent;
-import com.daqem.challenges.integration.arc.holder.ChallengesActionHolderType;
+import com.daqem.challenges.holder.ChallengesActionHolderType;
 import com.daqem.challenges.platform.ChallengesCommonPlatform;
 import com.mojang.logging.LogUtils;
 import net.minecraft.network.chat.Component;
