@@ -1,6 +1,13 @@
 package com.daqem.challenges.challenge;
 
+import com.daqem.challenges.data.ChallengesSerializer;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
+
+import java.lang.reflect.Type;
 
 public class ChallengeProgress {
 
@@ -38,5 +45,30 @@ public class ChallengeProgress {
 
     public boolean isComplete() {
         return progress >= challenge.getGoal();
+    }
+
+    public static class Serializer implements ChallengesSerializer<ChallengeProgress> {
+
+        @Override
+        public ChallengeProgress fromNetwork(FriendlyByteBuf friendlyByteBuf) {
+            return new ChallengeProgress(
+                    new Challenge.Serializer().fromNetwork(friendlyByteBuf),
+                    friendlyByteBuf.readInt()
+            );
+        }
+
+        @Override
+        public void toNetwork(FriendlyByteBuf friendlyByteBuf, ChallengeProgress type) {
+            new Challenge.Serializer().toNetwork(friendlyByteBuf, type.getChallenge());
+            friendlyByteBuf.writeInt(type.getProgress());
+        }
+
+        @Override
+        public ChallengeProgress deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            return new ChallengeProgress(
+                    new Challenge.Serializer().deserialize(jsonElement, type, jsonDeserializationContext),
+                    jsonElement.getAsJsonObject().get("progress").getAsInt()
+            );
+        }
     }
 }
