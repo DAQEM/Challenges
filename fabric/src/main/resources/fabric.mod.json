@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "com.daqem.challenges.fabric.ChallengesFabric"
+    ],
+    "client": [
+      "com.daqem.challenges.fabric.ChallengesFabricClient"
     ]
   },
   "mixins": [

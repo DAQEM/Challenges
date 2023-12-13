@@ -1,0 +1,13 @@
+{
+  "holder": {
+    "type": "challenges:challenge",
+    "id": "challenges:test"
+  },
+  "type": "arc:on_break_block",
+  "rewards": [
+    {
+      "type": "arc:item",
+      "item": "minecraft:diamond"
+    }
+  ]
+}
