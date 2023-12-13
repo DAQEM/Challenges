@@ -4,7 +4,7 @@ import com.daqem.arc.api.action.IAction;
 import com.daqem.arc.api.action.holder.IActionHolder;
 import com.daqem.arc.api.action.holder.type.IActionHolderType;
 import com.daqem.challenges.data.ChallengesSerializer;
-import com.daqem.challenges.integration.arc.holder.ChallengesActionHolderType;
+import com.daqem.challenges.holder.ChallengesActionHolderType;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

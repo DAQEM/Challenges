@@ -1,10 +1,9 @@
 package com.daqem.challenges.data;
 
 import com.daqem.arc.api.action.holder.ActionHolderManager;
-import com.daqem.arc.data.ActionManager;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
-import com.daqem.challenges.integration.arc.holder.ChallengesActionHolderType;
+import com.daqem.challenges.holder.ChallengesActionHolderType;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
 import com.mojang.logging.LogUtils;

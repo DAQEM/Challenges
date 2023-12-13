@@ -1,6 +1,5 @@
 package com.daqem.challenges.networking.clientbound;
 
-import com.daqem.challenges.Challenges;
 import com.daqem.challenges.client.screen.ChallengesScreen;
 import com.daqem.challenges.networking.ChallengesNetworking;
 import dev.architectury.networking.NetworkManager;

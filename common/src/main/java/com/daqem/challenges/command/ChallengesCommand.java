@@ -1,9 +1,7 @@
 package com.daqem.challenges.command;
 
 import com.daqem.arc.api.player.ArcPlayer;
-import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
-import com.daqem.challenges.challenge.ChallengeProgress;
 import com.daqem.challenges.command.argument.ChallengeArgument;
 import com.daqem.challenges.player.ChallengesServerPlayer;
 import com.mojang.brigadier.CommandDispatcher;
