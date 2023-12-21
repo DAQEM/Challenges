@@ -1,0 +1,12 @@
+{
+  "key.categories.challenges": "Challenges",
+  "key.challenges.open_menu": "Open Challenges Menu",
+  "challenges.screen.challenges.title": "Choose a Challenge",
+  "challenges.screen.challenges.subtitle": "Click on the challenge card you would like to play",
+  "challenges.difficulty.easy": "Easy",
+  "challenges.difficulty.medium": "Medium",
+  "challenges.difficulty.hard": "Hard",
+  "challenges.difficulty.extreme": "Extreme",
+  "challenges.difficulty.impossible": "IMPOSSIBLE",
+  "challenges.screen.card.start": "Start challenge"
+}

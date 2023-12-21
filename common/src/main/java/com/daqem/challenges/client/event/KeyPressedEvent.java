@@ -1,7 +1,7 @@
 package com.daqem.challenges.client.event;
 
 import com.daqem.challenges.client.ChallengesClient;
-import com.daqem.challenges.client.screen.ChallengesScreen;
+import com.daqem.challenges.client.gui.ChallengesScreen;
 import com.daqem.challenges.networking.serverbound.ServerboundOpenMenuPacket;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientRawInputEvent;
