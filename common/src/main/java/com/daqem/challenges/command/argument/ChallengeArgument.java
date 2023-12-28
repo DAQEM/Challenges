@@ -10,6 +10,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +29,10 @@ public class ChallengeArgument implements ArgumentType<Challenge> {
 
     @Override
     public Challenge parse(StringReader reader) throws CommandSyntaxException {
-        return challengeManager.getChallenge(ResourceLocation.read(reader));
+        return challengeManager.getChallenge(ResourceLocation.read(reader)).orElseThrow(() -> {
+            reader.setCursor(reader.getRemainingLength());
+            return new CommandSyntaxException(null, Component.literal("Unknown challenge location: " + reader.getString()), reader.getString(), reader.getCursor());
+        });
     }
 
     @Override

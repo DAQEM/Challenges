@@ -1,0 +1,18 @@
+{
+  "holder": {
+    "type": "challenges:challenge",
+    "id": "debug:mine_1000_stone"
+  },
+  "type": "arc:on_break_block",
+  "conditions": [
+    {
+      "type": "arc:block",
+      "block": "minecraft:stone"
+    }
+  ],
+  "rewards": [
+    {
+      "type": "challenges:challenge_occurrence"
+    }
+  ]
+}

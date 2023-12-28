@@ -1,12 +1,23 @@
 {
   "key.categories.challenges": "Challenges",
   "key.challenges.open_menu": "Open Challenges Menu",
-  "challenges.screen.challenges.title": "Choose a Challenge",
-  "challenges.screen.challenges.subtitle": "Click on the challenge card you would like to play",
+  "challenges.name": "Challenges",
+  "challenges.screen.challenges_selection.title": "Choose a Challenge",
+  "challenges.screen.challenges_selection.subtitle": "Click on the challenge card you would like to play",
   "challenges.difficulty.easy": "Easy",
   "challenges.difficulty.medium": "Medium",
   "challenges.difficulty.hard": "Hard",
   "challenges.difficulty.extreme": "Extreme",
   "challenges.difficulty.impossible": "IMPOSSIBLE",
-  "challenges.screen.card.start": "Start challenge"
+  "challenges.screen.card.start": "Start challenge",
+  "challenges.screen.book.description": "Description",
+  "challenges.screen.book.progress": "Progress",
+  "challenges.screen.book.rewards": "Rewards",
+  "challenges.challenge.complete": "%s has completed the %s challenge: %s",
+  "challenges.challenge.debug.mine_10_stone.name": "Mine 10 Stone",
+  "challenges.challenge.debug.mine_10_stone.description": "You must mine 10 blocks of stone to complete this challenge",
+  "challenges.challenge.debug.mine_100_stone.name": "Mine 100 Stone",
+  "challenges.challenge.debug.mine_100_stone.description": "You must mine 100 blocks of stone to complete this challenge",
+  "challenges.challenge.debug.mine_1000_stone.name": "Mine 1000 Stone",
+  "challenges.challenge.debug.mine_1000_stone.description": "You must mine 1000 blocks of stone to complete this challenge"
 }

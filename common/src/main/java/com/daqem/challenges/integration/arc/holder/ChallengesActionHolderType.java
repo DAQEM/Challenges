@@ -1,4 +1,4 @@
-package com.daqem.challenges.holder;
+package com.daqem.challenges.integration.arc.holder;
 
 import com.daqem.arc.api.action.holder.IActionHolder;
 import com.daqem.arc.api.action.holder.type.ActionHolderType;

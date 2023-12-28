@@ -3,10 +3,12 @@ package com.daqem.challenges.data;
 import com.daqem.arc.api.action.holder.ActionHolderManager;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
-import com.daqem.challenges.holder.ChallengesActionHolderType;
+import com.daqem.challenges.config.ChallengesConfig;
+import com.daqem.challenges.integration.arc.holder.ChallengesActionHolderType;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
 import com.mojang.logging.LogUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -34,6 +36,10 @@ public class ChallengeManager extends SimpleJsonResourceReloadListener {
         Map<ResourceLocation, Challenge> tempChallenges = new HashMap<>();
 
         map.forEach((location, jsonElement) -> {
+            if (location.getNamespace().equals("debug") && !ChallengesConfig.isDebug.get()) {
+                return;
+            }
+
             String locationString = location.toString();
             JsonObject json = jsonElement.getAsJsonObject();
             json.addProperty("_location", locationString);
@@ -50,8 +56,8 @@ public class ChallengeManager extends SimpleJsonResourceReloadListener {
         this.challenges = ImmutableMap.copyOf(tempChallenges);
     }
 
-    public Challenge getChallenge(ResourceLocation location) {
-        return challenges.get(location);
+    public Optional<Challenge> getChallenge(ResourceLocation location) {
+        return Optional.ofNullable(challenges.get(location));
     }
 
     public ImmutableMap<ResourceLocation, Challenge> getChallengesMap() {
@@ -59,7 +65,7 @@ public class ChallengeManager extends SimpleJsonResourceReloadListener {
     }
 
     public List<Challenge> getChallengesList() {
-        return challenges.values().stream().toList();
+        return new ArrayList<>(challenges.values());
     }
 
     public void replaceChallenges(List<Challenge> challenges) {

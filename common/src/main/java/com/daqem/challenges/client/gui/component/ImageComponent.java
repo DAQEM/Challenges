@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ImageComponent extends TextureComponent {
 
     public ImageComponent(ResourceLocation resourceLocation, int x, int y) {
-        super(new Texture(resourceLocation, 0, 0, 100, 100, 100, 100), x, y, 96, 77);
+        super(new Texture(resourceLocation, (256 - 176) / 2, (256 - 120) / 2, 192, 160), x, y, 88, 60);
     }
 
     public ImageComponent(ITexture texture, int x, int y) {

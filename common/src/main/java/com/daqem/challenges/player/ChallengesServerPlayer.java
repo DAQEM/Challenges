@@ -3,12 +3,14 @@ package com.daqem.challenges.player;
 import com.daqem.challenges.challenge.Challenge;
 import com.daqem.challenges.challenge.ChallengeProgress;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface ChallengesServerPlayer extends ChallengesPlayer {
 
-    List<ChallengeProgress> challenges$getChallenges();
-    void challenges$addChallenge(Challenge challenge);
-    void challenges$addChallenge(Challenge challenge, int progress);
-    void challenges$addChallenge(ChallengeProgress challenge);
+    Optional<ChallengeProgress> challenges$getChallenge();
+    void challenges$setChallenge(Challenge challenge);
+    void challenges$setChallengeIfNotPresent(Challenge challenge);
+    void challenges$setChallengeProgress(int progress);
+    void challenges$setChallenge(ChallengeProgress challenge);
+    void challenges$removeChallenge();
 }
