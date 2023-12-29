@@ -1,5 +1,9 @@
 package com.daqem.challenges.challenge;
 
+import com.daqem.arc.api.action.data.ActionData;
+import com.daqem.arc.api.action.data.ActionDataBuilder;
+import com.daqem.arc.api.action.data.type.ActionDataType;
+import com.daqem.arc.api.player.ArcPlayer;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.data.ChallengesSerializer;
 import com.daqem.challenges.player.ChallengesServerPlayer;
@@ -57,13 +61,34 @@ public class ChallengeProgress {
     }
 
     public void complete(ChallengesServerPlayer player) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            player.challenges$getChallenge().ifPresent(challengeProgress ->
-                    serverPlayer.server.getPlayerList().broadcastSystemMessage(
-                            challengeProgress.getChallenge().getChallengeCompleteMessage(serverPlayer),
-                            false));
-        }
+            player.challenges$getChallenge().ifPresent(challengeProgress -> {
+                sendChallengeCompleteBroadcastMessage(player, challengeProgress);
+                applyRewards(player, challengeProgress);
+            });
         player.challenges$removeChallenge();
+    }
+
+    private static void sendChallengeCompleteBroadcastMessage(ChallengesServerPlayer player, ChallengeProgress challengeProgress) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.server.getPlayerList().broadcastSystemMessage(
+                    challengeProgress.getChallenge().getChallengeCompleteMessage(serverPlayer),
+                    false);
+        }
+    }
+
+    private static void applyRewards(ChallengesServerPlayer player, ChallengeProgress challengeProgress) {
+        if (player instanceof ArcPlayer arcPlayer && player instanceof ServerPlayer serverPlayer) {
+            challengeProgress.getChallenge().getRewards().forEach(reward -> reward.apply(
+                    new ActionDataBuilder(
+                            arcPlayer,
+                            null
+                    )
+                            .withData(ActionDataType.BLOCK_POSITION, serverPlayer.blockPosition())
+                            .withData(ActionDataType.WORLD, serverPlayer.level())
+                            .withData(ActionDataType.ENTITY, serverPlayer)
+                            .build()
+            ));
+        }
     }
 
     public static class Serializer implements ChallengesSerializer<ChallengeProgress> {

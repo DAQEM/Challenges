@@ -2,14 +2,11 @@ package com.daqem.challenges.client.gui;
 
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.ChallengeProgress;
-import com.daqem.challenges.client.gui.component.ChallengeBookComponent;
-import com.daqem.challenges.client.gui.component.ChallengeCardComponent;
+import com.daqem.challenges.client.gui.component.BookComponent;
+import com.daqem.challenges.client.gui.component.CardComponent;
 import com.daqem.uilib.client.gui.AbstractScreen;
 import com.daqem.uilib.client.gui.background.Backgrounds;
-import com.daqem.uilib.client.gui.component.TextComponent;
 import com.daqem.uilib.client.gui.component.TextureComponent;
-import com.daqem.uilib.client.gui.text.Text;
-import com.daqem.uilib.client.gui.texture.Texture;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class ChallengeScreen extends AbstractScreen {
@@ -18,7 +15,7 @@ public class ChallengeScreen extends AbstractScreen {
 
     private final ChallengeProgress challengeProgress;
 
-    private ChallengeCardComponent challengeCardComponent;
+    private CardComponent cardComponent;
     private TextureComponent bookComponent;
 
     private final boolean fadeIn;
@@ -46,11 +43,11 @@ public class ChallengeScreen extends AbstractScreen {
     public void startScreen() {
         setBackground(Backgrounds.getDefaultBackground(width, height));
 
-        challengeCardComponent = new ChallengeCardComponent(0, 0, challengeProgress.getChallenge(), font);
-        bookComponent = new ChallengeBookComponent(font, challengeProgress);
+        cardComponent = new CardComponent(0, 0, challengeProgress.getChallenge(), font);
+        bookComponent = new BookComponent(font, challengeProgress);
 
-        challengeCardComponent.setScale(.8F);
-        challengeCardComponent.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {
+        cardComponent.setScale(.8F);
+        cardComponent.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {
             if (button == 0) {
                 isCardShown = !isCardShown;
                 if (isCardShown) {
@@ -65,7 +62,7 @@ public class ChallengeScreen extends AbstractScreen {
             }
         });
 
-        addComponents(challengeCardComponent, bookComponent);
+        addComponents(cardComponent, bookComponent);
 
         positionComponents();
     }
@@ -77,12 +74,12 @@ public class ChallengeScreen extends AbstractScreen {
 
     private void positionComponents() {
         bookComponent.center();
-        challengeCardComponent.center();
+        cardComponent.center();
 
         bookComponent.setX(bookComponent.getX() + bookOffsetX);
         bookComponent.setY(bookComponent.getY() + bookOffsetY);
-        challengeCardComponent.setX(challengeCardComponent.getX() + (bookComponent.getWidth() / 4) - 4 + cardOffsetX);
-        challengeCardComponent.setY(challengeCardComponent.getY() - 42 + cardOffsetY);
+        cardComponent.setX(cardComponent.getX() + (bookComponent.getWidth() / 4) - 4 + cardOffsetX);
+        cardComponent.setY(cardComponent.getY() - 42 + cardOffsetY);
     }
 
     @Override

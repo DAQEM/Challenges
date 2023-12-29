@@ -3,6 +3,9 @@ package com.daqem.challenges.challenge;
 import com.daqem.arc.api.action.IAction;
 import com.daqem.arc.api.action.holder.IActionHolder;
 import com.daqem.arc.api.action.holder.type.IActionHolderType;
+import com.daqem.arc.api.reward.IReward;
+import com.daqem.arc.api.reward.serializer.IRewardSerializer;
+import com.daqem.arc.registry.ArcRegistry;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.data.ChallengesSerializer;
 import com.daqem.challenges.integration.arc.holder.ChallengesActionHolderType;
@@ -18,9 +21,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Challenge implements IActionHolder {
 
@@ -29,12 +35,14 @@ public class Challenge implements IActionHolder {
     private final int goal;
     private final Difficulty difficulty;
     private final ResourceLocation imageLocation;
+    private final List<IReward> rewards;
 
-    public Challenge(ResourceLocation location, int goal, Difficulty difficulty, ResourceLocation imageLocation) {
+    public Challenge(ResourceLocation location, int goal, Difficulty difficulty, ResourceLocation imageLocation, List<IReward> rewards) {
         this.location = location;
         this.goal = goal;
         this.difficulty = difficulty;
         this.imageLocation = imageLocation;
+        this.rewards = rewards;
     }
 
     public ResourceLocation getLocation() {
@@ -68,6 +76,10 @@ public class Challenge implements IActionHolder {
         return imageLocation;
     }
 
+    public List<IReward> getRewards() {
+        return rewards;
+    }
+
     public Component getName() {
         return Challenges.translatable("challenge." + location.getNamespace() + "." + location.getPath() + ".name");
     }
@@ -92,11 +104,24 @@ public class Challenge implements IActionHolder {
         @Override
         public Challenge deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
             JsonObject json = jsonElement.getAsJsonObject();
+
+            ResourceLocation location = getResourceLocation(json, "_location");
+            List<IReward> rewards = new ArrayList<>();
+            if (json.has("rewards")) {
+                json.getAsJsonArray("rewards").forEach(json1 -> {
+                    ResourceLocation rewardLocation = getResourceLocation(json1.getAsJsonObject(), "type");
+                    ArcRegistry.REWARD_SERIALIZER.getOptional(rewardLocation).ifPresent(serializer -> {
+                        rewards.add(serializer.fromJson(location, json1.getAsJsonObject()));
+                    });
+                });
+            }
+
             return new Challenge(
-                    getResourceLocation(json, "_location"),
+                    location,
                     json.get(GOAL).getAsInt(),
                     Difficulty.getById(json.get(DIFFICULTY).getAsInt()),
-                    json.has(IMAGE) ? getResourceLocation(json, IMAGE) : Challenges.getId(DEFAULT_IMAGE)
+                    json.has(IMAGE) ? getResourceLocation(json, IMAGE) : Challenges.getId(DEFAULT_IMAGE),
+                    rewards
             );
         }
 
@@ -106,8 +131,9 @@ public class Challenge implements IActionHolder {
                     friendlyByteBuf.readResourceLocation(),
                     friendlyByteBuf.readInt(),
                     Difficulty.getById(friendlyByteBuf.readInt()),
-                    friendlyByteBuf.readResourceLocation()
-            );
+                    friendlyByteBuf.readResourceLocation(),
+                    friendlyByteBuf.readList(IRewardSerializer::fromNetwork)
+                    );
         }
 
         @Override
@@ -116,6 +142,8 @@ public class Challenge implements IActionHolder {
             friendlyByteBuf.writeInt(challenge.getGoal());
             friendlyByteBuf.writeInt(challenge.getDifficulty().getId());
             friendlyByteBuf.writeResourceLocation(challenge.getImageLocation());
+            friendlyByteBuf.writeCollection(challenge.getRewards(),
+                    (friendlyByteBuf1, reward) -> IRewardSerializer.toNetwork(reward, friendlyByteBuf1, challenge.getLocation()));
         }
 
         @Override

@@ -3,9 +3,6 @@ package com.daqem.challenges.client.gui.component;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
 import com.daqem.challenges.challenge.Difficulty;
-import com.daqem.challenges.networking.serverbound.ServerboundChooseChallengePacket;
-import com.daqem.uilib.api.client.gui.texture.ITexture;
-import com.daqem.uilib.client.gui.color.ColorManipulator;
 import com.daqem.uilib.client.gui.component.*;
 import com.daqem.uilib.client.gui.component.TextComponent;
 import com.daqem.uilib.client.gui.text.Text;
@@ -14,15 +11,11 @@ import com.daqem.uilib.client.gui.text.multiline.MultiLineText;
 import com.daqem.uilib.client.gui.texture.Texture;
 import com.daqem.uilib.client.gui.texture.Textures;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
-import java.util.Objects;
-
-public class ChallengeCardComponent extends TextureComponent {
+public class CardComponent extends TextureComponent {
 
     private static final int WIDTH = 120;
     private static final int HEIGHT = 174;
@@ -37,7 +30,7 @@ public class ChallengeCardComponent extends TextureComponent {
     private NineSlicedTextureComponent nameBackgroundComponent;
     private ImageComponent imageComponent;
 
-    public ChallengeCardComponent(int x, int y, Challenge challenge, Font font) {
+    public CardComponent(int x, int y, Challenge challenge, Font font) {
         super(new Texture(Challenges.getId("textures/gui/test-card.png"), 0, 0, 120, 174), x, y, WIDTH, HEIGHT);
         this.challenge = challenge;
         this.font = font;

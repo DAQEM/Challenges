@@ -1,5 +1,19 @@
 {
   "goal": 10,
   "difficulty": 1,
-  "image": "challenges:textures/gui/images/river.png"
+  "image": "challenges:textures/gui/images/river.png",
+  "rewards": [
+    {
+      "type": "arc:item",
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "type": "arc:item",
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "type": "arc:item",
+      "item": "minecraft:iron_ingot"
+    }
+  ]
 }

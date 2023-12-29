@@ -2,7 +2,7 @@ package com.daqem.challenges.client.gui;
 
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
-import com.daqem.challenges.client.gui.component.ChallengeCardComponent;
+import com.daqem.challenges.client.gui.component.CardComponent;
 import com.daqem.challenges.networking.serverbound.ServerboundChooseChallengePacket;
 import com.daqem.uilib.client.gui.AbstractScreen;
 import com.daqem.uilib.client.gui.background.Backgrounds;
@@ -21,12 +21,12 @@ public class ChallengesSelectionScreen extends AbstractScreen {
     private final static Component SUBTITLE = Challenges.translatable("screen.challenges_selection.subtitle");
 
     private final List<Challenge> challenges;
-    private final List<ChallengeCardComponent> challengeCardComponents = new ArrayList<>();
+    private final List<CardComponent> cardComponents = new ArrayList<>();
 
     private TextComponent titleComponent;
     private TextComponent subtitleComponent;
 
-    private ChallengeCardComponent selectedChallenge = null;
+    private CardComponent selectedChallenge = null;
     private int selectedChallengeOffsetXGoal = 0;
     private int selectedChallengeOffsetYGoal = 0;
     private int unselectedChallengeOffsetYGoal = 0;
@@ -56,7 +56,7 @@ public class ChallengesSelectionScreen extends AbstractScreen {
         addComponents(titleComponent, subtitleComponent);
 
         for (Challenge challenge : challenges) {
-            ChallengeCardComponent card = new ChallengeCardComponent(0, 0, challenge, this.font);
+            CardComponent card = new CardComponent(0, 0, challenge, this.font);
             card.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {
                 if (button == 0) {
                     if (selectedChallenge == null) {
@@ -68,7 +68,7 @@ public class ChallengesSelectionScreen extends AbstractScreen {
 //                    new ServerboundChooseChallengePacket(challenge.getLocation()).sendToServer();
                 }
             });
-            challengeCardComponents.add(card);
+            cardComponents.add(card);
             addComponents(card);
         }
     }
@@ -76,7 +76,7 @@ public class ChallengesSelectionScreen extends AbstractScreen {
     private void positionComponents() {
 
         for (int i = -1; i < challenges.size() - 1; i++) {
-            ChallengeCardComponent card = this.challengeCardComponents.get(i + 1);
+            CardComponent card = this.cardComponents.get(i + 1);
             card.setScale(.8F);
             card.center();
             card.setX(card.getX() + (110 * i));
@@ -92,12 +92,12 @@ public class ChallengesSelectionScreen extends AbstractScreen {
         subtitleComponent.setOpacity((selectedChallengeOffsetY + 100F) / 100F);
 
         if (selectedChallenge != null) {
-            for (ChallengeCardComponent challengeCardComponent : challengeCardComponents) {
-                if (challengeCardComponent != selectedChallenge) {
-                    challengeCardComponent.setY(challengeCardComponent.getY() + unselectedChallengeOffsetY);
+            for (CardComponent cardComponent : cardComponents) {
+                if (cardComponent != selectedChallenge) {
+                    cardComponent.setY(cardComponent.getY() + unselectedChallengeOffsetY);
                 } else {
-                    challengeCardComponent.setX(challengeCardComponent.getX() + selectedChallengeOffsetX);
-                    challengeCardComponent.setY(challengeCardComponent.getY() + selectedChallengeOffsetY);
+                    cardComponent.setX(cardComponent.getX() + selectedChallengeOffsetX);
+                    cardComponent.setY(cardComponent.getY() + selectedChallengeOffsetY);
                 }
             }
         }

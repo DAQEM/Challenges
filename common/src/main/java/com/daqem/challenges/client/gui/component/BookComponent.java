@@ -1,5 +1,7 @@
 package com.daqem.challenges.client.gui.component;
 
+import com.daqem.arc.Arc;
+import com.daqem.arc.api.reward.IReward;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.ChallengeProgress;
 import com.daqem.uilib.client.gui.component.TextComponent;
@@ -10,14 +12,15 @@ import com.daqem.uilib.client.gui.text.multiline.MultiLineText;
 import com.daqem.uilib.client.gui.texture.Texture;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Component;
 
-public class ChallengeBookComponent extends TextureComponent {
+import java.util.List;
+
+public class BookComponent extends TextureComponent {
 
     private final Font font;
     private final ChallengeProgress challengeProgress;
 
-    public ChallengeBookComponent(Font font, ChallengeProgress challengeProgress) {
+    public BookComponent(Font font, ChallengeProgress challengeProgress) {
         super(new Texture(Challenges.getId("textures/gui/book.png"), 0, 0, 287, 186, 287, 256), 0, 0, 287, 186);
         this.font = font;
         this.challengeProgress = challengeProgress;
@@ -54,6 +57,24 @@ public class ChallengeBookComponent extends TextureComponent {
         TextComponent rewardTextComponent = new TextComponent(150, 14, rewardText);
         rewardTextComponent.setScale(1.25F);
         addChild(rewardTextComponent);
+
+        List<IReward> rewards = challengeProgress.getChallenge().getRewards();
+        int offsetY = 26;
+
+        for (IReward reward : rewards) {
+            Text rewardName = new Text(font, Arc.translatable("reward." + reward.getType().getLocation().getPath()), 0, 0);
+            rewardName.setTextColor(0x222222);
+            TextComponent rewardNameComponent = new TextComponent(150, offsetY, rewardName);
+            addChild(rewardNameComponent);
+
+            MultiLineText rewardDescription = new MultiLineText(font, Arc.translatable("reward.description." + reward.getType().getLocation().getPath()), 0, 0, 126);
+            rewardDescription.setTextColor(ChatFormatting.DARK_GRAY);
+            TextComponent rewardDescriptionComponent = new TextComponent(150, offsetY + font.lineHeight, rewardDescription);
+            addChild(rewardDescriptionComponent);
+
+            offsetY += (rewardDescription.getLines().size() + 1) * font.lineHeight + 4;
+        }
+
 
         super.startRenderable();
     }
