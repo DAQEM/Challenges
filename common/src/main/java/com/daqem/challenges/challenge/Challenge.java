@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Challenge implements IActionHolder {
 
@@ -80,16 +78,20 @@ public class Challenge implements IActionHolder {
         return rewards;
     }
 
-    public Component getName() {
+    public MutableComponent getName() {
         return Challenges.translatable("challenge." + location.getNamespace() + "." + location.getPath() + ".name");
     }
 
-    public Component getDescription() {
+    public MutableComponent getStyledName() {
+        return getName().withStyle(Style.EMPTY.withColor(getDifficulty().getColor()));
+    }
+
+    public MutableComponent getDescription() {
         return Challenges.translatable("challenge." + location.getNamespace() + "." + location.getPath() + ".description");
     }
 
-    public Component getChallengeCompleteMessage(ServerPlayer player) {
-        return Challenges.getChatPrefix().append(Challenges.translatable("challenge.complete", player.getName(), getDifficulty().getLowercaseDisplayNameWithColor(), getName().copy().withStyle(Style.EMPTY.withColor(getDifficulty().getColor()))));
+    public MutableComponent getChallengeCompleteMessage(ServerPlayer player) {
+        return Challenges.getChatPrefix().append(Challenges.translatable("challenge.complete", player.getName(), getDifficulty().getLowercaseStyledDisplayName(), getStyledName()));
     }
 
     public static class Serializer implements ChallengesSerializer<Challenge> {

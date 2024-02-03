@@ -55,21 +55,31 @@ public class ChallengesSelectionScreen extends AbstractScreen {
 
         addComponents(titleComponent, subtitleComponent);
 
-        for (Challenge challenge : challenges) {
-            CardComponent card = new CardComponent(0, 0, challenge, this.font);
-            card.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {
-                if (button == 0) {
-                    if (selectedChallenge == null) {
-                        selectedChallenge = card;
-                        selectedChallengeOffsetYGoal = -50;
-                        selectedChallengeOffsetXGoal = 70;
-                        unselectedChallengeOffsetYGoal = 220;
+        if (challenges.isEmpty()) {
+            TextComponent noChallengesTitle = new TextComponent(0, 0, new Text(this.font, Challenges.translatable("screen.challenges_selection.no_challenges.title"), 0, 0));
+            noChallengesTitle.center();
+            TextComponent noChallengesSubtitle = new TextComponent(0, 0, new Text(this.font, Challenges.translatable("screen.challenges_selection.no_challenges.subtitle"), 0, 0));
+            noChallengesSubtitle.center();
+            noChallengesSubtitle.setY(noChallengesSubtitle.getY() + font.lineHeight);
+            addComponents(noChallengesTitle, noChallengesSubtitle);
+        } else {
+            for (Challenge challenge : challenges) {
+                CardComponent card = new CardComponent(0, 0, challenge, this.font);
+                card.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {
+                    if (button == 0) {
+                        if (selectedChallenge == null) {
+                            selectedChallenge = card;
+                            selectedChallengeOffsetYGoal = -50;
+                            int index = cardComponents.indexOf(card) - 1;
+                            int offset = 110 * index;
+                            selectedChallengeOffsetXGoal = 70 - offset;
+                            unselectedChallengeOffsetYGoal = 220;
+                        }
                     }
-//                    new ServerboundChooseChallengePacket(challenge.getLocation()).sendToServer();
-                }
-            });
-            cardComponents.add(card);
-            addComponents(card);
+                });
+                cardComponents.add(card);
+                addComponents(card);
+            }
         }
     }
 

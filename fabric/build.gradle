@@ -1,6 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
     id "com.matthewprenger.cursegradle" version "1.4.0"
+    id 'com.modrinth.minotaur' version '2.+'
 }
 
 architectury {
@@ -75,6 +76,10 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
+remapSourcesJar {
+    archiveClassifier = "fabric-sources"
+}
+
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
@@ -125,4 +130,23 @@ curseforge {
 
 afterEvaluate {
     tasks.curseforge931377.dependsOn remapJar
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_API_KEY")
+    projectId = "1ZFKUTnF"
+    versionName = "Challenges Fabric $rootProject.minecraft_version - $rootProject.mod_version"
+    versionNumber = "$rootProject.mod_version"
+    versionType = "$rootProject.curse_forge_release_type"
+    uploadFile = remapJar
+    additionalFiles = [remapSourcesJar]
+    gameVersions = ["$rootProject.minecraft_version"]
+    loaders = ["fabric"]
+    changelog = rootProject.file('changelog.md').text
+    dependencies {
+        required.project "architectury-api"
+        required.project "supermartijn642s-config-lib"
+        required.project "arc"
+        required.project "ui-lib"
+    }
 }

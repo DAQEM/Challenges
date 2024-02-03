@@ -3,6 +3,7 @@ package com.daqem.challenges.client.gui.component;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
 import com.daqem.challenges.challenge.Difficulty;
+import com.daqem.challenges.config.ChallengesConfig;
 import com.daqem.uilib.client.gui.component.*;
 import com.daqem.uilib.client.gui.component.TextComponent;
 import com.daqem.uilib.client.gui.text.Text;
@@ -19,7 +20,6 @@ public class CardComponent extends TextureComponent {
 
     private static final int WIDTH = 120;
     private static final int HEIGHT = 174;
-    private static final float DESCRIPTION_SCALE = .8F;
 
     private final Challenge challenge;
     private Font font;
@@ -31,14 +31,13 @@ public class CardComponent extends TextureComponent {
     private ImageComponent imageComponent;
 
     public CardComponent(int x, int y, Challenge challenge, Font font) {
-        super(new Texture(Challenges.getId("textures/gui/test-card.png"), 0, 0, 120, 174), x, y, WIDTH, HEIGHT);
+        super(new Texture(Challenges.getId("textures/gui/card.png"), 0, 0, 120, 174), x, y, WIDTH, HEIGHT);
         this.challenge = challenge;
         this.font = font;
     }
 
     @Override
     public void startRenderable() {
-//        setColorManipulator(new ColorManipulator(.45F, .285F, .175F));
 
         difficultyComponent = new TextComponent(0, 5, new Text(font, challenge.getDifficulty().getDisplayName(), 0, 0, Math.min(88, font.width(challenge.getDifficulty().getDisplayName())), 9));
         nameComponent = new TextComponent(0, 78, new TruncatedText(font, challenge.getName(), 0, 0, Math.min(98, font.width(challenge.getName())), 9));
@@ -47,8 +46,6 @@ public class CardComponent extends TextureComponent {
         TextureComponent imageComponent = new TextureComponent(new Texture(challenge.getImageLocation(), 0, 0, 104 * 2, 104 * 2), 8, 11, 104, 104);
 
         imageComponent.setZ(-1);
-
-//        descriptionComponent.setScale(DESCRIPTION_SCALE);
 
         addChildren(imageComponent, descriptionComponent);
 
@@ -101,64 +98,42 @@ public class CardComponent extends TextureComponent {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         super.render(graphics, mouseX, mouseY, delta);
-//        graphics.fill(5, 14, 90 + 5, 62 + 14, 0xff000000);
 
-        int gray = 0xff5a524c;
+        int color;
 
         if (challenge.getDifficulty() == Difficulty.HARD) {
-            graphics.hLine(12, 15, 62, gray);
-            graphics.hLine(12, 15, 63, gray);
-            graphics.hLine(10, 17, 64, gray);
-            graphics.hLine(10, 17, 65, gray);
-            graphics.hLine(10, 17, 66, gray);
-            graphics.hLine(10, 17, 67, gray);
-            graphics.hLine(12, 15, 68, gray);
-            graphics.hLine(12, 15, 69, gray);
+            color = ChallengesConfig.hardColor.get() + 0xFF000000;
+            graphics.hLine(12, 15, 52, color);
+            graphics.hLine(12, 15, 53, color);
+            graphics.hLine(10, 17, 54, color);
+            graphics.hLine(10, 17, 55, color);
+            graphics.hLine(10, 17, 56, color);
+            graphics.hLine(10, 17, 57, color);
+            graphics.hLine(12, 15, 58, color);
+            graphics.hLine(12, 15, 59, color);
 
-            graphics.hLine(12, 15, 72, gray);
-            graphics.hLine(12, 15, 73, gray);
-            graphics.hLine(10, 17, 74, gray);
-            graphics.hLine(10, 17, 75, gray);
-            graphics.hLine(10, 17, 76, gray);
-            graphics.hLine(10, 17, 77, gray);
-            graphics.hLine(12, 15, 78, gray);
-            graphics.hLine(12, 15, 79, gray);
         } else if (challenge.getDifficulty() == Difficulty.MEDIUM) {
-            graphics.hLine(12, 15, 52, gray);
-            graphics.hLine(12, 15, 53, gray);
-            graphics.hLine(10, 17, 54, gray);
-            graphics.hLine(10, 17, 55, gray);
-            graphics.hLine(10, 17, 56, gray);
-            graphics.hLine(10, 17, 57, gray);
-            graphics.hLine(12, 15, 58, gray);
-            graphics.hLine(12, 15, 59, gray);
+            color = ChallengesConfig.mediumColor.get() + 0xFF000000;
+            graphics.hLine(12, 15, 62, color);
+            graphics.hLine(12, 15, 63, color);
+            graphics.hLine(10, 17, 64, color);
+            graphics.hLine(10, 17, 65, color);
+            graphics.hLine(10, 17, 66, color);
+            graphics.hLine(10, 17, 67, color);
+            graphics.hLine(12, 15, 68, color);
+            graphics.hLine(12, 15, 69, color);
 
-            graphics.hLine(12, 15, 72, gray);
-            graphics.hLine(12, 15, 73, gray);
-            graphics.hLine(10, 17, 74, gray);
-            graphics.hLine(10, 17, 75, gray);
-            graphics.hLine(10, 17, 76, gray);
-            graphics.hLine(10, 17, 77, gray);
-            graphics.hLine(12, 15, 78, gray);
-            graphics.hLine(12, 15, 79, gray);
+
         } else if (challenge.getDifficulty() == Difficulty.EASY) {
-            graphics.hLine(12, 15, 52, gray);
-            graphics.hLine(12, 15, 53, gray);
-            graphics.hLine(10, 17, 54, gray);
-            graphics.hLine(10, 17, 55, gray);
-            graphics.hLine(10, 17, 56, gray);
-            graphics.hLine(10, 17, 57, gray);
-            graphics.hLine(12, 15, 58, gray);
-            graphics.hLine(12, 15, 59, gray);
-
-            graphics.hLine(12, 15, 62, gray);
-            graphics.hLine(12, 15, 63, gray);
-            graphics.hLine(10, 17, 64, gray);
-            graphics.hLine(10, 17, 65, gray);
-            graphics.hLine(10, 17, 66, gray);
-            graphics.hLine(10, 17, 67, gray);
-            graphics.hLine(12, 15, 68, gray);
-            graphics.hLine(12, 15, 69, gray);
+            color = ChallengesConfig.easyColor.get() + 0xFF000000;
+            graphics.hLine(12, 15, 72, color);
+            graphics.hLine(12, 15, 73, color);
+            graphics.hLine(10, 17, 74, color);
+            graphics.hLine(10, 17, 75, color);
+            graphics.hLine(10, 17, 76, color);
+            graphics.hLine(10, 17, 77, color);
+            graphics.hLine(12, 15, 78, color);
+            graphics.hLine(12, 15, 79, color);
         }
     }
 

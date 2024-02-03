@@ -1,6 +1,7 @@
 package com.daqem.challenges.command;
 
 import com.daqem.arc.api.player.ArcPlayer;
+import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
 import com.daqem.challenges.challenge.ChallengeProgress;
 import com.daqem.challenges.command.argument.ChallengeArgument;
@@ -20,12 +21,6 @@ public class ChallengesCommand {
         dispatcher.register(Commands
                 .literal("challenges")
                 .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
-                .then(Commands.literal("debug")
-                        .then(Commands.argument("target_player", EntityArgument.player())
-                                .executes(context -> debug(context.getSource(), EntityArgument.getPlayer(context, "target_player")))
-                        )
-                        .executes(context -> debug(context.getSource(), context.getSource().getPlayer()))
-                )
                 .then(Commands.literal("set")
                         .then(Commands.argument("target_player", EntityArgument.player())
                                 .then(Commands.literal("challenge")
@@ -71,26 +66,37 @@ public class ChallengesCommand {
         );
     }
 
-    private static int debug(CommandSourceStack source, ServerPlayer target) {
-        if (target instanceof ArcPlayer arcPlayer) {
-            arcPlayer.arc$getActionHolders().forEach(actionHolder -> {
-                source.sendSuccess(() -> Component.literal(actionHolder.getLocation().toString()), false);
-                source.sendSuccess(() -> Component.literal("actions: " + actionHolder.getActions().size()), false);
-                source.sendSuccess(() -> Component.literal(" "), false);
-            });
-        }
-        return 0;
-    }
-
     private static int setChallenge(CommandSourceStack source, ServerPlayer target, @Nullable Challenge challenge, int progress) {
         if (challenge != null && progress >= challenge.getGoal()) {
-            source.sendFailure(Component.literal("Progress must be less than the goal: " + challenge.getGoal()));
-        }
-        if (target instanceof ChallengesServerPlayer serverPlayer) {
-            if (challenge == null) {
-                serverPlayer.challenges$removeChallenge();
-            } else {
-                serverPlayer.challenges$setChallenge(new ChallengeProgress(challenge, progress));
+            source.sendFailure(Challenges.prefixedTranslatable("command.set.challenge.failure.progress", challenge.getGoal()));
+        } else {
+            if (target instanceof ChallengesServerPlayer serverPlayer) {
+                if (challenge != null) {
+                    serverPlayer.challenges$setChallenge(new ChallengeProgress(challenge, progress));
+                    if (progress == 0) {
+                        if (source.getPlayer() == target) {
+                            source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.challenge.success.self", challenge.getStyledName()), false);
+                        } else {
+                            source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.challenge.success.other", target.getDisplayName().getString(), challenge.getStyledName()), false);
+                            target.sendSystemMessage(Challenges.prefixedTranslatable("command.set.challenge.success.other.player", challenge.getStyledName()), false);
+                        }
+                    } else {
+                        if (source.getPlayer() == target) {
+                            source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.challenge.success.self.progress", challenge.getStyledName(), progress), false);
+                        } else {
+                            source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.challenge.success.other.progress", target.getDisplayName().getString(), challenge.getStyledName(), progress), false);
+                            target.sendSystemMessage(Challenges.prefixedTranslatable("command.set.challenge.success.other.player.progress", challenge.getStyledName(), progress), false);
+                        }
+                    }
+                } else {
+                    serverPlayer.challenges$removeChallenge();
+                    if (source.getPlayer() == target) {
+                        source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.challenge.success.self.none"), false);
+                    } else {
+                        source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.challenge.success.other.none", target.getDisplayName().getString()), false);
+                        target.sendSystemMessage(Challenges.prefixedTranslatable("command.set.challenge.success.other.player.none"), false);
+                    }
+                }
             }
         }
         return 0;
@@ -101,13 +107,24 @@ public class ChallengesCommand {
             serverPlayer.challenges$getChallenge().ifPresentOrElse(
                     challengeProgress -> {
                         if (progress > challengeProgress.getChallenge().getGoal()) {
-                            source.sendFailure(Component.literal("Progress cannot be greater than the goal: " + challengeProgress.getChallenge().getGoal()));
+                            source.sendFailure(Challenges.prefixedTranslatable("command.set.progress.failure.progress", challengeProgress.getChallenge().getGoal()));
                         } else {
                             serverPlayer.challenges$setChallengeProgress(progress);
-                            source.sendSuccess(() -> Component.literal("Set progress of " + target.getDisplayName().getString() + "'s challenge to " + progress), false);
+                            if (source.getPlayer() == target) {
+                                source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.progress.success.self", progress), false);
+                            } else {
+                                source.sendSuccess(() -> Challenges.prefixedTranslatable("command.set.progress.success.other", target.getDisplayName().getString(), progress), false);
+                                target.sendSystemMessage(Challenges.prefixedTranslatable("command.set.progress.success.other.player", progress), false);
+                            }
                         }
                     },
-                    () -> source.sendFailure(Component.literal("Player does not have a challenge")));
+                    () -> {
+                        if (source.getPlayer() == target) {
+                            source.sendFailure(Challenges.prefixedTranslatable("command.set.progress.failure.none.self"));
+                        } else {
+                            source.sendFailure(Challenges.prefixedTranslatable("command.set.progress.failure.none.other", target.getDisplayName().getString()));
+                        }
+                    });
         }
         return 0;
     }

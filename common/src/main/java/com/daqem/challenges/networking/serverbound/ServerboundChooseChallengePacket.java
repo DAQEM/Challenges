@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class ServerboundChooseChallengePacket extends BaseC2SMessage {
 
-    private ResourceLocation challengeLocation;
+    private final ResourceLocation challengeLocation;
 
     public ServerboundChooseChallengePacket(ResourceLocation challengeLocation) {
         this.challengeLocation = challengeLocation;
@@ -38,8 +38,10 @@ public class ServerboundChooseChallengePacket extends BaseC2SMessage {
         Challenges.getPlatform().getChallengeManager().getChallenge(challengeLocation).ifPresent(challenge -> {
             if (context.getPlayer() instanceof ChallengesServerPlayer serverPlayer) {
                 serverPlayer.challenges$setChallengeIfNotPresent(challenge);
-                serverPlayer.challenges$getChallenge().ifPresent(challengeProgress ->
-                        new ClientboundOpenChallengeScreenPacket(challengeProgress, true).sendTo((ServerPlayer) context.getPlayer()));
+                serverPlayer.challenges$getChallenge().ifPresent(challengeProgress -> {
+                    serverPlayer.challenges$getCachedChallenges().clear();
+                    new ClientboundOpenChallengeScreenPacket(challengeProgress, true).sendTo((ServerPlayer) context.getPlayer());
+                });
             }
         });
     }

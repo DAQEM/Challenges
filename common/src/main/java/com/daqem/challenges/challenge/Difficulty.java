@@ -1,14 +1,15 @@
 package com.daqem.challenges.challenge;
 
 import com.daqem.challenges.Challenges;
+import com.daqem.challenges.config.ChallengesConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 
 public enum Difficulty {
 
-    EASY(1, 0x3c9484),
-    MEDIUM(2, 0xeead40),
-    HARD(3, 0xec4b44);
+    EASY(1, ChallengesConfig.easyColor.get()),
+    MEDIUM(2, ChallengesConfig.mediumColor.get()),
+    HARD(3, ChallengesConfig.hardColor.get());
 
     private final int id;
     private final int color;
@@ -39,7 +40,7 @@ public enum Difficulty {
         return Challenges.translatable("difficulty." + name().toLowerCase());
     }
 
-    public Component getLowercaseDisplayNameWithColor() {
+    public Component getLowercaseStyledDisplayName() {
         return Challenges.literal(getDisplayName().getString().toLowerCase()).withStyle(Style.EMPTY.withColor(color));
     }
 }

@@ -3,6 +3,7 @@ package com.daqem.challenges.networking;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.networking.clientbound.ClientboundOpenChallengeScreenPacket;
 import com.daqem.challenges.networking.clientbound.ClientboundOpenChallengesSelectionScreenPacket;
+import com.daqem.challenges.networking.clientbound.ClientboundUpdateChallengesPacket;
 import com.daqem.challenges.networking.serverbound.ServerboundChooseChallengePacket;
 import com.daqem.challenges.networking.serverbound.ServerboundOpenChallengesScreenPacket;
 import dev.architectury.networking.simple.MessageType;
@@ -17,6 +18,7 @@ public interface ChallengesNetworking {
 
     MessageType CLIENTBOUND_OPEN_CHALLENGES_SELECTION_SCREEN = NETWORK_MANAGER.registerS2C("clientbound_open_challenges_selection_screen", ClientboundOpenChallengesSelectionScreenPacket::new);
     MessageType CLIENTBOUND_OPEN_CHALLENGE_SCREEN = NETWORK_MANAGER.registerS2C("clientbound_open_challenge_screen", ClientboundOpenChallengeScreenPacket::new);
+    MessageType CLIENTBOUND_UPDATE_CHALLENGES = NETWORK_MANAGER.registerS2C("clientbound_update_challenges", ClientboundUpdateChallengesPacket::new);
 
     static void init() {
     }

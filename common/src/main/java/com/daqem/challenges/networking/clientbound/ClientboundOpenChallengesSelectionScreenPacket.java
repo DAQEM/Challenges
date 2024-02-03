@@ -8,6 +8,8 @@ import com.daqem.challenges.networking.ChallengesNetworking;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.networking.simple.BaseS2CMessage;
 import dev.architectury.networking.simple.MessageType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -15,7 +17,7 @@ import java.util.List;
 
 public class ClientboundOpenChallengesSelectionScreenPacket extends BaseS2CMessage {
 
-    private List<Challenge> challenges;
+    private final List<Challenge> challenges;
 
     public ClientboundOpenChallengesSelectionScreenPacket(List<Challenge> challenges) {
         this.challenges = challenges;
@@ -36,6 +38,7 @@ public class ClientboundOpenChallengesSelectionScreenPacket extends BaseS2CMessa
     }
 
     @Override
+    @Environment(value= EnvType.CLIENT)
     public void handle(NetworkManager.PacketContext context) {
         Minecraft.getInstance().setScreen(new ChallengesSelectionScreen(
                 challenges

@@ -1,6 +1,7 @@
 package com.daqem.challenges.networking.serverbound;
 
 import com.daqem.challenges.Challenges;
+import com.daqem.challenges.challenge.Challenge;
 import com.daqem.challenges.networking.ChallengesNetworking;
 import com.daqem.challenges.networking.clientbound.ClientboundOpenChallengeScreenPacket;
 import com.daqem.challenges.networking.clientbound.ClientboundOpenChallengesSelectionScreenPacket;
@@ -10,6 +11,8 @@ import dev.architectury.networking.simple.BaseC2SMessage;
 import dev.architectury.networking.simple.MessageType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+
+import java.util.List;
 
 public class ServerboundOpenChallengesScreenPacket extends BaseC2SMessage {
 
@@ -28,11 +31,12 @@ public class ServerboundOpenChallengesScreenPacket extends BaseC2SMessage {
 
     @Override
     public void write(FriendlyByteBuf buf) {
-
+        Challenges.debug("Sending open challenges screen packet to server");
     }
 
     @Override
     public void handle(NetworkManager.PacketContext context) {
+        Challenges.debug("Handling open challenges screen packet on server");
         if (context.getPlayer() instanceof ChallengesServerPlayer player) {
             ServerPlayer serverPlayer = (ServerPlayer) context.getPlayer();
 
@@ -41,8 +45,13 @@ public class ServerboundOpenChallengesScreenPacket extends BaseC2SMessage {
                         new ClientboundOpenChallengeScreenPacket(challenge).sendTo(serverPlayer);
                     },
                     () -> {
+                        List<Challenge> challenges = player.challenges$getCachedChallenges();
+                        if (challenges.size() < 3) {
+                            challenges = Challenges.getPlatform().getChallengeManager().getThreeRandomChallenges();
+                        }
+                        player.challenges$setCachedChallenges(challenges);
                         new ClientboundOpenChallengesSelectionScreenPacket(
-                                Challenges.getPlatform().getChallengeManager().getThreeRandomChallenges()
+                                challenges
                         ).sendTo(serverPlayer);
                     }
             );

@@ -6,6 +6,8 @@ import com.daqem.challenges.networking.ChallengesNetworking;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.networking.simple.BaseS2CMessage;
 import dev.architectury.networking.simple.MessageType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -39,6 +41,7 @@ public class ClientboundOpenChallengeScreenPacket extends BaseS2CMessage {
     }
 
     @Override
+    @Environment(value= EnvType.CLIENT)
     public void handle(NetworkManager.PacketContext context) {
         Minecraft.getInstance().setScreen(new ChallengeScreen(challengeProgress, fadeIn));
     }

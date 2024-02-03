@@ -16,6 +16,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ChallengeManager extends SimpleJsonResourceReloadListener {
 

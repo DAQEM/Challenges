@@ -60,16 +60,17 @@ public class BookComponent extends TextureComponent {
 
         List<IReward> rewards = challengeProgress.getChallenge().getRewards();
         int offsetY = 26;
-
+        float scale = .75F;
         for (IReward reward : rewards) {
-            Text rewardName = new Text(font, Arc.translatable("reward." + reward.getType().getLocation().getPath()), 0, 0);
+            Text rewardName = new Text(font, reward.getName(), 0, 0);
             rewardName.setTextColor(0x222222);
             TextComponent rewardNameComponent = new TextComponent(150, offsetY, rewardName);
             addChild(rewardNameComponent);
 
-            MultiLineText rewardDescription = new MultiLineText(font, Arc.translatable("reward.description." + reward.getType().getLocation().getPath()), 0, 0, 126);
+            MultiLineText rewardDescription = new MultiLineText(font, reward.getDescription(), 0, 0, 126 / 3 * 4);
             rewardDescription.setTextColor(ChatFormatting.DARK_GRAY);
             TextComponent rewardDescriptionComponent = new TextComponent(150, offsetY + font.lineHeight, rewardDescription);
+            rewardDescriptionComponent.setScale(scale);
             addChild(rewardDescriptionComponent);
 
             offsetY += (rewardDescription.getLines().size() + 1) * font.lineHeight + 4;
