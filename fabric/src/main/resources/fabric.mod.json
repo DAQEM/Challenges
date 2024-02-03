@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "com.daqem.challenges.fabric.ChallengesFabric"
+    ],
+    "client": [
+      "com.daqem.challenges.fabric.ChallengesFabricClient"
     ]
   },
   "mixins": [
@@ -27,9 +30,9 @@
     "challenges-common.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.1",
-    "minecraft": ">=1.20.1",
-    "architectury": ">=9.1.12",
+    "fabricloader": ">=${fabric_loader_version}",
+    "minecraft": ">=${minecraft_version}",
+    "architectury": ">=${architectury_version}",
     "supermartijn642configlib": ">=${config_library_version}",
     "arc": ">=${arc_version}",
     "uilib": ">=${ui_lib_version}"
