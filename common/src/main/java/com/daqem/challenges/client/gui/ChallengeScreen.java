@@ -41,10 +41,10 @@ public class ChallengeScreen extends AbstractScreen {
 
     @Override
     public void startScreen() {
-        setBackground(Backgrounds.getDefaultBackground(width, height));
+        setBackground(Backgrounds.getDefaultBackground(getWidth(), getHeight()));
 
-        cardComponent = new CardComponent(0, 0, challengeProgress.getChallenge(), font);
-        bookComponent = new BookComponent(font, challengeProgress);
+        cardComponent = new CardComponent(0, 0, challengeProgress.getChallenge(), getFont());
+        bookComponent = new BookComponent(getFont(), challengeProgress);
 
         cardComponent.setScale(.8F);
         cardComponent.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {

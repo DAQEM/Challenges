@@ -4,8 +4,9 @@ import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.Challenge;
 import com.daqem.challenges.challenge.Difficulty;
 import com.daqem.challenges.config.ChallengesConfig;
-import com.daqem.uilib.client.gui.component.*;
+import com.daqem.uilib.client.gui.component.NineSlicedTextureComponent;
 import com.daqem.uilib.client.gui.component.TextComponent;
+import com.daqem.uilib.client.gui.component.TextureComponent;
 import com.daqem.uilib.client.gui.text.Text;
 import com.daqem.uilib.client.gui.text.TruncatedText;
 import com.daqem.uilib.client.gui.text.multiline.MultiLineText;
@@ -27,8 +28,6 @@ public class CardComponent extends TextureComponent {
     private TextComponent difficultyComponent;
     private TextComponent nameComponent;
     private TextComponent descriptionComponent;
-    private NineSlicedTextureComponent nameBackgroundComponent;
-    private ImageComponent imageComponent;
 
     public CardComponent(int x, int y, Challenge challenge, Font font) {
         super(new Texture(Challenges.getId("textures/gui/card.png"), 0, 0, 120, 174), x, y, WIDTH, HEIGHT);
@@ -41,7 +40,6 @@ public class CardComponent extends TextureComponent {
 
         difficultyComponent = new TextComponent(0, 5, new Text(font, challenge.getDifficulty().getDisplayName(), 0, 0, Math.min(88, font.width(challenge.getDifficulty().getDisplayName())), 9));
         nameComponent = new TextComponent(0, 78, new TruncatedText(font, challenge.getName(), 0, 0, Math.min(98, font.width(challenge.getName())), 9));
-        nameBackgroundComponent = new NineSlicedTextureComponent(Textures.Advancement.ADVANCEMENT_HOVER_BAR_OBTAINED, -3, 72, 106, 20);
         descriptionComponent = new TextComponent(10, 108, new MultiLineText(font, challenge.getDescription(), 0, 0, 106));
         TextureComponent imageComponent = new TextureComponent(new Texture(challenge.getImageLocation(), 0, 0, 104 * 2, 104 * 2), 8, 11, 104, 104);
 

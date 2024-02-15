@@ -1,10 +1,11 @@
 package com.daqem.challenges.client.gui.component;
 
-import com.daqem.uilib.api.client.gui.texture.ITexture;
-import com.daqem.uilib.client.gui.component.*;
+import com.daqem.uilib.client.gui.component.NineSlicedTextureComponent;
+import com.daqem.uilib.client.gui.component.SolidColorComponent;
+import com.daqem.uilib.client.gui.component.TextComponent;
+import com.daqem.uilib.client.gui.component.TextureComponent;
 import com.daqem.uilib.client.gui.text.Text;
 import com.daqem.uilib.client.gui.texture.Textures;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
