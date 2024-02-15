@@ -1,6 +1,5 @@
 package com.daqem.challenges.client.gui.component;
 
-import com.daqem.arc.Arc;
 import com.daqem.arc.api.reward.IReward;
 import com.daqem.challenges.Challenges;
 import com.daqem.challenges.challenge.ChallengeProgress;

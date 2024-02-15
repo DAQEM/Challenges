@@ -41,10 +41,10 @@ public class ChallengesSelectionScreen extends AbstractScreen {
 
     @Override
     public void startScreen() {
-        setBackground(Backgrounds.getDefaultBackground(width, height));
+        setBackground(Backgrounds.getDefaultBackground(getWidth(), getHeight()));
 
-        this.titleComponent = new TextComponent(0, 0, new Text(this.font, TITLE, 0, 0));
-        this.subtitleComponent = new TextComponent(0, 0, new Text(this.font, SUBTITLE, 0, 0));
+        this.titleComponent = new TextComponent(0, 0, new Text(getFont(), TITLE, 0, 0));
+        this.subtitleComponent = new TextComponent(0, 0, new Text(getFont(), SUBTITLE, 0, 0));
 
         titleComponent.setScale(1.5F);
         titleComponent.setZ(-1);
@@ -56,15 +56,15 @@ public class ChallengesSelectionScreen extends AbstractScreen {
         addComponents(titleComponent, subtitleComponent);
 
         if (challenges.isEmpty()) {
-            TextComponent noChallengesTitle = new TextComponent(0, 0, new Text(this.font, Challenges.translatable("screen.challenges_selection.no_challenges.title"), 0, 0));
+            TextComponent noChallengesTitle = new TextComponent(0, 0, new Text(getFont(), Challenges.translatable("screen.challenges_selection.no_challenges.title"), 0, 0));
             noChallengesTitle.center();
-            TextComponent noChallengesSubtitle = new TextComponent(0, 0, new Text(this.font, Challenges.translatable("screen.challenges_selection.no_challenges.subtitle"), 0, 0));
+            TextComponent noChallengesSubtitle = new TextComponent(0, 0, new Text(getFont(), Challenges.translatable("screen.challenges_selection.no_challenges.subtitle"), 0, 0));
             noChallengesSubtitle.center();
-            noChallengesSubtitle.setY(noChallengesSubtitle.getY() + font.lineHeight);
+            noChallengesSubtitle.setY(noChallengesSubtitle.getY() + getFont().lineHeight);
             addComponents(noChallengesTitle, noChallengesSubtitle);
         } else {
             for (Challenge challenge : challenges) {
-                CardComponent card = new CardComponent(0, 0, challenge, this.font);
+                CardComponent card = new CardComponent(0, 0, challenge, getFont());
                 card.setOnClickEvent((clickedObject, screen, mouseX, mouseY, button) -> {
                     if (button == 0) {
                         if (selectedChallenge == null) {
